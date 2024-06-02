@@ -6,16 +6,37 @@ Each serializer is documented with its fields and any custom validation or save 
 
 Author: Abdelmasry
 """
+
 ######################################################################
 ########################## I M P O R T S #############################
 ######################################################################
 from rest_framework import serializers
-from .models import Company, Department, Employee
+from .models import Company, Department, Employee, UserAccounts
+
 ######################################################################
+
 
 ######################################################################
 ###################### S E R I A L I Z E R S #########################
 ######################################################################
+
+
+class UserAccountsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserAccounts
+        fields = ["id", "username", "email", "role", "password"]
+
+    def create(self, validated_data):
+        user = UserAccounts.objects.create_user(
+            username=validated_data["username"],
+            email=validated_data["email"],
+            role=validated_data["role"],
+            password=validated_data["password"],
+        )
+
+        return user
+
+
 class CompanySerializer(serializers.ModelSerializer):
     """
     Serializer for the Company model.
@@ -179,4 +200,6 @@ class EmployeeSerializer(serializers.ModelSerializer):
         )
         instance.save()
         return instance
+
+
 ######################################################################

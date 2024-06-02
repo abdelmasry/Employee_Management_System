@@ -13,7 +13,9 @@ Author: Abdelmasry
 from django.db.models.signals import post_save, post_delete, pre_save
 from django.dispatch import receiver
 from .models import Company, Department, Employee
+
 ######################################################################
+
 
 ######################################################################
 ########################## S I G N A L S #############################
@@ -120,4 +122,6 @@ def decrease_employee_counts(sender, instance, **kwargs):
     company.no_of_employees -= 1
     department.save()
     company.save()
+
+
 ######################################################################
